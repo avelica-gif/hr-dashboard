@@ -4,33 +4,22 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const questions = require("./questions")
+
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const Choices = require("inquirer/lib/objects/choices");
+const { resolve } = require("path");
+
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-function chooseType() {
-    inquirer
-        .prompt(employeeQuestions)
-        .then((answers) => {
-            if (answers.employmentRole === "Manager")
-                if (answers.employmentRole === "Engineer")
-                    if (answers.employmentRole === "Intern") {
-                        addManager(answers);
-                    }
-        })
-}
-
-function init() {
-    inquirer
-        .prompt([
+function getEmployeeInfo() {
+    return new Promise(resolve => {
+        const genQuestions = [
             {
                 type: 'input',
                 message: 'What is your full name?',
@@ -52,17 +41,53 @@ function init() {
                 choices: ['Emplopyee', 'Engineer', 'Intern', 'Manager'],
                 name: 'role',
 
-            }
-
-        ])
-        .then((response) =>
-            //console.log(response) //returns an object of the users response
-            //use fs to write to the readme file
-            questions(({ ...response }))
-
-        )
-
+            }]
+    })
 }
+
+inquirer.prompt(genQuestions).then(response => {
+    switch (response.employeeType) {
+        case "Manager":
+            const man = [
+                {
+                    type: 'input',
+                    name: 'officeNumber',
+                    message: 'Enter the office number of the manager:'
+                },
+                {
+                    type: 'list',
+                    name: 'again',
+                    message: 'Would you like to input the information of another employee?',
+                    choices: ['Yes', 'No']
+                }
+            ];
+            inquirer.prompt(man).then(answer => {
+                resolve.name([answer.again === 'Yes', new Manager(response.name, response.ID, response.email, answer.officeNumber)]);
+            });
+            break;
+        case "Engineer":
+            const eng = [
+                {
+                    type: 'input',
+                    message: 'Enter the Github username of the engineer:',
+                    name: 'github'
+                },
+                {
+                    type: 'list',
+                    message: 
+                }
+
+            ]
+    }
+})
+
+
+
+
+//console.log(response) //returns an object of the users response
+//use fs to write to the readme file
+questions(({ ...response }))
+
 
 // function call to initialize program
 init();
@@ -85,4 +110,4 @@ init();
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// for the provided `render` function to work!
