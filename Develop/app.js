@@ -6,12 +6,13 @@ const path = require("path");
 const fs = require("fs");
 
 
-`const OUTPUT_DIR = path.resolve(__dirname, "output");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const { resolve } = require("path");
-const { get } = require("http");`
+const { get } = require("http");
+
 // inquirer
 //   .prompt([
 //     /* Pass your questions in here */
@@ -66,9 +67,8 @@ inquirer
 
         } else if (userObject.role === "Intern") {
             console.log("chose Intern");
-
-
-
+        } else if (userObject.role === "Manager") {
+            console.log("chose Manager");
         }
     })
 
