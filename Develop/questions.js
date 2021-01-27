@@ -5,6 +5,8 @@ const app = require("./app.js")
 
 exports.questionsengineer
 
+
+
 function init() {
     inquirer
         .prompt([
@@ -28,12 +30,15 @@ function init() {
                     name: 'school',
                 },
 
-
-                exports.questionsmanager
+                inquirer.prompt(genQuestions).then(response => {
+                    switch (response.employeeType) {
+                        case "Manager":
+                            const man = [
+                                exports.questionsmanager
 
             {
-                    type: 'input',
-                    message: 'What is your office number?',
-                    name: 'number',
-                }
+                                    type: 'input',
+                                    message: 'What is your office number?',
+                                    name: 'number',
+                                }
 

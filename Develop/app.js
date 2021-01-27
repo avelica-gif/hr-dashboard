@@ -6,91 +6,86 @@ const path = require("path");
 const fs = require("fs");
 
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
+`const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const { resolve } = require("path");
-
-
+const { get } = require("http");`
+// inquirer
+//   .prompt([
+//     /* Pass your questions in here */
+//   ])
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
-function getEmployeeInfo() {
-    return new Promise(resolve => {
-        const genQuestions = [
-            {
-                type: 'input',
-                message: 'What is your full name?',
-                name: 'name',
-            },
-            {
-                type: 'input',
-                message: 'What is your id?',
-                name: 'id',
-            },
-            {
-                type: 'input',
-                message: 'What is your full email address?',
-                name: 'email',
-            },
-            {
-                type: 'list',
-                message: 'What is your role?',
-                choices: ['Emplopyee', 'Engineer', 'Intern', 'Manager'],
-                name: 'role',
-
-            }]
-    })
+//Global variables
+let userObject = {
+    name: '',
+    id: '',
+    email: '',
+    role: ''
 }
 
-inquirer.prompt(genQuestions).then(response => {
-    switch (response.employeeType) {
-        case "Manager":
-            const man = [
-                {
-                    type: 'input',
-                    name: 'officeNumber',
-                    message: 'Enter the office number of the manager:'
-                },
-                {
-                    type: 'list',
-                    name: 'again',
-                    message: 'Would you like to input the information of another employee?',
-                    choices: ['Yes', 'No']
-                }
-            ];
-            inquirer.prompt(man).then(answer => {
-                resolve.name([answer.again === 'Yes', new Manager(response.name, response.ID, response.email, answer.officeNumber)]);
-            });
-            break;
-        case "Engineer":
-            const eng = [
-                {
-                    type: 'input',
-                    message: 'Enter the Github username of the engineer:',
-                    name: 'github'
-                },
-                {
-                    type: 'list',
-                    message: 
-                }
+inquirer
+    .prompt([
+        {
+            type: 'input',
+            message: 'What is your full name?',
+            name: 'name',
+        },
+        {
+            type: 'input',
+            message: 'What is your id?',
+            name: 'id',
+        },
+        {
+            type: 'input',
+            message: 'What is your full email address?',
+            name: 'email',
+        },
+        {
+            type: 'list',
+            message: 'What is your role?',
+            choices: ['Emplopyee', 'Engineer', 'Intern', 'Manager'],
+            name: 'role',
 
-            ]
-    }
-})
+        }])
+    .then(answers => {
+        // 
+        //get info out of the answers object and additional oparation with the role and name, id, email send the information to the constructor 
+        userObject = {
+            name: answers.name,
+            id: answers.id,
+            email: answers.email,
+            role: answers.role
+        }
+        console.log(userObject.role);
+        if (userObject.role === "Engineer") {
+            console.log("chose Engineer");
+
+        } else if (userObject.role === "Intern") {
+            console.log("chose Intern");
+
+
+
+        }
+    })
+
+//take that response and for the last list and bring another function
+//Write an async funtion
+
 
 
 
 
 //console.log(response) //returns an object of the users response
 //use fs to write to the readme file
-questions(({ ...response }))
+// questions(({ ...response }))
 
 
 // function call to initialize program
-init();
+// init();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
